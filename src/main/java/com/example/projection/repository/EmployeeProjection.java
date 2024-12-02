@@ -7,7 +7,7 @@ public interface EmployeeProjection {
     @Value("#{target.firstName + ' ' + target.lastName}")
     String getFullName();
     String getPosition();
-    String getDepartmentName();
+    DepartmentView getDepartment();
 
     interface DepartmentView {
         String getName();
