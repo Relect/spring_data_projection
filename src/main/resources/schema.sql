@@ -1,11 +1,16 @@
 
-    CREATE TABLE IF NOT EXISTS users (
+    CREATE TABLE IF NOT EXISTS department (
         id BIGINT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255),
-        email VARCHAR(255) UNIQUE);
+        name VARCHAR(255));
 
-    CREATE TABLE IF NOT EXISTS orders (
+
+    CREATE TABLE IF NOT EXISTS employee (
         id BIGINT AUTO_INCREMENT PRIMARY KEY,
-        status VARCHAR(255),
-        user_id BIGINT,
-        FOREIGN KEY (user_id) REFERENCES users(id));
+        first_name VARCHAR(255),
+        last_name VARCHAR(255),
+        position VARCHAR(255),
+        salary INT,
+        department_id BIGINT,
+        FOREIGN KEY (department_id) REFERENCES department(id));
+
+
