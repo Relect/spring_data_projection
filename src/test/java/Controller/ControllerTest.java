@@ -16,6 +16,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Arrays;
+
 @ExtendWith(MockitoExtension.class)
 public class ControllerTest {
 
@@ -51,7 +53,15 @@ public class ControllerTest {
     }
 
     @Test
-    public void updateEmployeeTest() {
+    public void getAllEmployeeTest() throws Exception {
+        Employee employee1 = new Employee(1L, "Ivan", "Ivanov", "junior", 50000, null);
+        Employee employee2 = new Employee(1L, "Maksim", "Maskimov", "junior", 50000, null);
+        Mockito.when(service.getAllEmployee()).thenReturn(Arrays.asList(employee1, employee2));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/emp"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].firstName").value("Ivan"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].firstName").value("Maksim"));
 
     }
 }

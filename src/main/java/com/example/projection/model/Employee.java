@@ -2,6 +2,7 @@ package com.example.projection.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +21,10 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String position;
+    @Positive(message = "Должно быть больше нуля")
     private int salary;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "department_id")
     private Department department;
 

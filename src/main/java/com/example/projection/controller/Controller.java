@@ -1,9 +1,12 @@
 package com.example.projection.controller;
 
+import com.example.projection.Exception.DepartmentNotFoundException;
+import com.example.projection.Exception.EmpoyeeNotFoundException;
 import com.example.projection.model.Department;
 import com.example.projection.model.Employee;
 import com.example.projection.repository.EmployeeProjection;
 import com.example.projection.service.Service;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +26,7 @@ public class Controller {
     }
 
     @GetMapping("/emp/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable long id) {
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable long id) throws EmpoyeeNotFoundException {
         Employee employee = service.getEmployeeById(id);
         return employee == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(employee);
     }
@@ -35,12 +38,12 @@ public class Controller {
     }
 
     @PostMapping("/emp")
-    public Employee addEmployee(@RequestBody Employee employee) {
+    public Employee addEmployee(@Valid @RequestBody Employee employee) {
         return service.addEmployee(employee);
     }
 
     @PutMapping("/emp")
-    public ResponseEntity<String > updateEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<String > updateEmployee(@Valid @RequestBody Employee employee) throws EmpoyeeNotFoundException {
         if (employee.getId() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Должен содержать ID");
         }
@@ -54,7 +57,7 @@ public class Controller {
     }
 
     @GetMapping("/dep/{id}")
-    public ResponseEntity<Department> getDepById(@PathVariable long id) {
+    public ResponseEntity<Department> getDepById(@PathVariable long id) throws DepartmentNotFoundException {
         Department department = service.getDepartmentById(id);
         return department == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(department);
     }
@@ -65,7 +68,7 @@ public class Controller {
     }
 
     @PutMapping("/dep")
-    public ResponseEntity<String > updateDepartment(@RequestBody Department department) {
+    public ResponseEntity<String > updateDepartment(@RequestBody Department department) throws DepartmentNotFoundException {
         if (department.getId() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Должен содержать ID");
         }

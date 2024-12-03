@@ -1,5 +1,7 @@
 package com.example.projection.service;
 
+import com.example.projection.Exception.DepartmentNotFoundException;
+import com.example.projection.Exception.EmpoyeeNotFoundException;
 import com.example.projection.model.Department;
 import com.example.projection.model.Employee;
 import com.example.projection.repository.DepartmentRepository;
@@ -29,11 +31,11 @@ public class Service {
         return repository.findByFirstName(firstName);
     }
 
-    public Employee getEmployeeById(long id) {
-        return repository.getReferenceById(id);
+    public Employee getEmployeeById(long id) throws EmpoyeeNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new EmpoyeeNotFoundException(id));
     }
 
-    public void updateEmployee(Employee employee) {
+    public void updateEmployee(Employee employee) throws EmpoyeeNotFoundException {
         Employee newEmployee = getEmployeeById(employee.getId());
         if (employee.getFirstName() != null) newEmployee.setFirstName(employee.getFirstName());
         if (employee.getLastName() != null) newEmployee.setLastName(employee.getLastName());
@@ -50,15 +52,15 @@ public class Service {
     public List<Department> getAllDepartment() {
         return departmentRepository.findAll();
     }
-    public Department getDepartmentById(long id) {
-        return departmentRepository.getReferenceById(id);
+    public Department getDepartmentById(long id) throws DepartmentNotFoundException {
+        return departmentRepository.findById(id).orElseThrow(() -> new DepartmentNotFoundException(id));
     }
 
     public Department addDepartment(Department department) {
         return departmentRepository.save(department);
     }
 
-    public void updateDepartment(Department department) {
+    public void updateDepartment(Department department) throws DepartmentNotFoundException {
         Department newDepartment = getDepartmentById(department.getId());
         if (department.getName() != null) newDepartment.setName(department.getName());
         departmentRepository.save(newDepartment);
