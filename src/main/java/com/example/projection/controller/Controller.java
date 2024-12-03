@@ -22,6 +22,12 @@ public class Controller {
         return ResponseEntity.ok(service.getAllEmployee());
     }
 
+    @GetMapping("/emp/{id}")
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable long id) {
+        Employee employee = service.getEmployeeById(id);
+        return employee == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(employee);
+    }
+
     @GetMapping("/employee/{name}")
     public ResponseEntity<EmployeeProjection> getProjection(@PathVariable String name) {
         EmployeeProjection projection = service.getProjectionByFirstName(name);

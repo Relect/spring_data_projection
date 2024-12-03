@@ -29,12 +29,12 @@ public class Service {
         return repository.findByFirstName(firstName);
     }
 
-    public Employee getEmployee(long id) {
+    public Employee getEmployeeById(long id) {
         return repository.getReferenceById(id);
     }
 
     public void updateEmployee(Employee employee) {
-        Employee newEmployee = getEmployee(employee.getId());
+        Employee newEmployee = getEmployeeById(employee.getId());
         if (employee.getFirstName() != null) newEmployee.setFirstName(employee.getFirstName());
         if (employee.getLastName() != null) newEmployee.setLastName(employee.getLastName());
         if (employee.getPosition() != null) newEmployee.setPosition(employee.getPosition());
